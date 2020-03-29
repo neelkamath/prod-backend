@@ -1,0 +1,27 @@
+openapi: 3.0.3
+info:
+  title: Prod Backend
+  version: '0.0.1'
+  description: |
+    Template for production-ready backends.
+
+    View docs for older releases [here](https://github.com/neelkamath/prod-backend/releases).
+  contact:
+    name: Neel Kamath
+    email: neelkamathonline@gmail.com
+    url: https://github.com/neelkamath/prod-backend
+  license:
+    name: MIT
+    url: https://github.com/neelkamath/prod-backend/blob/master/LICENSE
+servers:
+  - url: http://localhost:80
+    description: You'll have to run the server yourself.
+paths:
+  /health_check:
+    get:
+      tags: [status]
+      description: Checks if all systems are operational.
+      operationId: healthCheck
+      responses:
+        '204':
+          description: All systems are operational.

@@ -1,0 +1,59 @@
+on: push
+jobs:
+  test-server:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          docker-compose \
+            -f docker/docker-compose.yml \
+            -f docker/docker-compose.test.yml \
+            --project-directory . \
+            run --rm backend gradle test
+      - if: always()
+        uses: actions/upload-artifact@v1
+        with:
+          name: server-test-results
+          path: build/reports/tests/test/
+  test-spec:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npx @stoplight/spectral lint docs/openapi.yaml
+  build-docs:
+    if: github.ref == 'refs/heads/master'
+    needs: [test-server, test-spec]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npx redoc-cli bundle docs/openapi.yaml --title 'Prod Backend'
+      - uses: actions/upload-artifact@v1
+        with:
+          name: docs
+          path: README.html
+  github-release:
+    needs: build-docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v1
+        with:
+          name: docs
+          path: .
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - run: ./gradlew --no-daemon githubRelease -PGITHUB_PAT=${{ secrets.GITHUB_PAT }}
+  host-docs:
+    needs: build-docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v1
+        with:
+          name: docs
+          path: .
+      - uses: crazy-max/ghaction-github-pages@v1
+        with:
+          build_dir: .
+        env:
+          GITHUB_PAT: ${{ secrets.GITHUB_PAT }}

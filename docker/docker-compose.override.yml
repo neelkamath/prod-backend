@@ -1,0 +1,19 @@
+version: '3.7'
+services:
+  backend:
+    image: gradle:6.3-jdk8
+    command: sh -c 'gradle --no-daemon -t installDist & gradle --no-daemon run'
+    # The directory must be named "prod-backend" because ktor's autoreload watches a directory by that name. The
+    # directory must be nested (i.e., "/prod-backend" will not work).
+    working_dir: /home/gradle/prod-backend
+    ports: [5000:80]
+    volumes:
+      - type: bind
+        source: .
+        target: /home/gradle/prod-backend
+        consistency: cached # Prevents Docker for Mac bind mounts from being unusably slow.
+      - type: volume
+        source: gradle-cache
+        target: /home/gradle/.gradle
+volumes:
+  gradle-cache:

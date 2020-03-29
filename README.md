@@ -6,6 +6,8 @@ _Production-Ready Backend Template_
 
 For people who need to build backends, Prod Backend is a production-ready backend template. Unlike other templates, this repo has few opinions and isn't bloated.
 
+This template uses Kotlin, ktor, PostgreSQL, Gradle, GitHub Actions, OpenAPI, and Docker. Read [this gist](https://gist.github.com/neelkamath/df9198b13ac344b17938a7909cdb31f2) to learn how to best set up the project.
+
 Branding assets are stored in the [`branding`](branding) directory.
 
 ## Installation

@@ -10,10 +10,12 @@ This template uses Kotlin, ktor, PostgreSQL, Gradle, GitHub Actions, OpenAPI, an
 
 Branding assets are stored in the [`branding`](branding) directory.
 
+If you want to use a previous version, download and use the `Source code` asset of that particular [release](https://github.com/neelkamath/prod-backend/releases).
+
 ## Installation
 
 1. Install the [app](docs/install.md).
-1. Optionally, generate a wrapper for the HTTP API using [OpenAPI Generator](https://openapi-generator.tech/) on the file https://raw.githubusercontent.com/neelkamath/prod-backend/master/docs/openapi.yaml.
+1. Optionally, generate a wrapper for the HTTP API using [OpenAPI Generator](https://openapi-generator.tech/) on the file [OpenAPI spec](docs/openapi.yaml).
 
 ## Usage
 
